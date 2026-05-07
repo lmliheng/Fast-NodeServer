@@ -9,6 +9,7 @@ dotenv.config();
 // - 没有错误处理机制，连接失败会直接导致应用崩溃
 
 // 连接连接池
+
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,

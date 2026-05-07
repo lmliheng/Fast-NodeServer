@@ -1,4 +1,4 @@
-const { ToHash, ComparePassword } = require('./bcrypt_login')
+const { ToHash, ComparePassword } = require('./bcrypt_password')
 const { generateId } = require('./id_creator')
 
 //- 使用了 require (CommonJS 语法)

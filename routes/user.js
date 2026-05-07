@@ -3,7 +3,7 @@ const router = express.Router()
 const { token_db_getUserInfo } = require('../utils/db_curd')
 const { tokenCreator } = require('../utils/token_creator')
 const { user_db_update } = require('../utils/db_curd')
-const { ToHash } = require('../utils/bcrypt_login')
+const { ToHash } = require('../utils/bcrypt_password')
 
 //========================================
 //table: user

@@ -1,5 +1,5 @@
 const { pool } = require('./connect_db')
-const { ComparePassword } = require('../utils/bcrypt_login')
+const { ComparePassword } = require('./bcrypt_password')
 const { tokenValidator } = require('../utils/token_creator')
 
 

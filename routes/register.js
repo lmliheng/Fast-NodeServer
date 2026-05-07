@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { register_db_checkExistByEmail, register_db_register } = require('../utils/db_curd')
-const { ToHash } = require('../utils/bcrypt_login')
+const { ToHash } = require('../utils/bcrypt_password')
 const { generateId } = require('../utils/id_creator')
 const tokenCreator = require('../utils/token_creator')
 

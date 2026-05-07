@@ -8,4 +8,5 @@ const ToHash = async (password) => {
 const ComparePassword = async (password, hashedPassword) => {
     return await bcrypt.compare(password, hashedPassword);
 }
+
 module.exports = { ToHash, ComparePassword }
