@@ -18,6 +18,9 @@ app.use(require('./routes/register'))
 app.use(require('./routes/article'))
 app.use(require('./routes/article_cart'))
 app.use(require('./routes/user'))
+app.use(require('./routes/hunyuan'))
+
+
 // 1. 确保启用 CORS
 app.use(cors({
   origin: ['http://localhost:*', 'http://127.0.0.1:*']
