@@ -15,10 +15,12 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(require('./routes/login_request'))
 app.use(require('./routes/register_request'))
-app.use(require('./routes/articl_request'))
+app.use(require('./routes/article_request'))
 app.use(require('./routes/article_category_request'))
 app.use(require('./routes/user_request'))
 app.use(require('./routes/hunyuan_request'))
+app.use(require('./routes/role_request'))
+app.use(require('./routes/permission_request'))
 
 //  确保启用 CORS
 app.use(cors({

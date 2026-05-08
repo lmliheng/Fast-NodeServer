@@ -1,4 +1,4 @@
-const { ToHash, ComparePassword } = require('../bcrypt_password')
+const { ToHash, ComparePassword } = require('../crypto_password')
 
 let password = '123456'
  ToHash(password).then(res => {

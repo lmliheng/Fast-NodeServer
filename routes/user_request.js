@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const { token_getUserInfo, user_updatePassword } = require('../utils/db_curd')
+const { token_getUserInfo, user_updatePassword, user_getAll } = require('../utils/db_curd')
 const { tokenCreator, tokenValidator } = require('../utils/token_creator')
 const { user_update } = require('../utils/db_curd')
-const { ToHash } = require('../utils/bcrypt_password')
+const { ToHash } = require('../utils/crypto_password')
 
 //========================================
 //table: user
@@ -125,5 +125,74 @@ router.post('/resetPassword', async (req, res) => {
 )
 
 // 更新用户权限
+// router.put('/updatePermission', async (req, res) => {
+//     const { id, permission_ids } = req.body
+//     // 参数校验
+//     if (!id || !permission_ids) {
+//         return res.status(400).json({
+//             code: 400,
+//             success: false,
+//             message: '用户id、权限id不能为空'
+//         })
+//     }
+//     try {
+//         await user_updatePermission(id, permission_ids)
+//         res.json({
+//             code: 200,
+//             success: true,
+//             message: '更新用户权限成功'
+//         })
+//     } catch (error) {
+//         console.error('更新用户权限错误:', error)
+//         res.status(500).json({
+//             success: false,
+//             message: '服务器内部错误'
+//         })
+//     }
+// }
+// )
+
+// 获取所有用户信息
+router.get('/getAllUserInfo', async (req, res) => {
+    const  token  = req.headers.authorization
+    const decoded = tokenValidator(token)
+    if (!decoded) {
+        return res.status(401).json({
+            code: 401,
+            success: false,
+            message: '未授权'
+        })
+    }
+    const user_id = decoded.id
+
+    try {
+        if (user_id !== 1) {
+            return res.status(403).json({
+                code: 403,
+                success: false,
+                message: '权限不足'
+            })
+        } else {
+            const users = await user_getAll()
+            res.json({
+                code: 200,
+                success: true,
+                message: '获取所有用户信息成功',
+                users: users
+            })
+        }
+    } catch (error) {
+        console.error('获取所有用户信息错误:', error)
+        res.status(500).json({
+            success: false,
+            message: '服务器内部错误'
+        })
+    }
+
+})
+
+
+
+
 
 module.exports = router

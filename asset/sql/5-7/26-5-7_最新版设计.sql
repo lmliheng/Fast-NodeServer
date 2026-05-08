@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `article` (
     `article_id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '文章ID',
     `title` VARCHAR(255) NOT NULL COMMENT '文章标题',
     `content` LONGTEXT COMMENT '文章内容',
-    `user_id` BIGINT UNSIGNED NOT NULL COMMENT '创建用户ID',
+    `user` BIGINT UNSIGNED NOT NULL COMMENT '创建用户ID',
     `status` BOOLEAN DEFAULT 0 COMMENT '状态：0-草稿，1-已发布，2-仅自己可见',
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `articleAndcategroy_middle` (
     INDEX `idx_article_id` (`article_id`),
     INDEX `idx_category_id` (`category_id`),
     CONSTRAINT `fk_middle_article` FOREIGN KEY (`article_id`) REFERENCES `article` (`article_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT `fk_middle_category` FOREIGN KEY (`category_id`) REFERENCES `article_category` (`cartcategory_id`) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT `fk_middle_category` FOREIGN KEY (`category_id`) REFERENCES `article_category` (`category_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COMMENT = '中间表';
 
 -- 5. 创建角色权限中间表（依赖role和permission）

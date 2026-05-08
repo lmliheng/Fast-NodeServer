@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const { register_checkExistByEmail, register_register } = require('../utils/db_curd')
-const { ToHash } = require('../utils/bcrypt_password')
+const { register_checkExistByEmail, register_checkExistByUsername, register_register } = require('../utils/db_curd')
+const { ToHash } = require('../utils/crypto_password')
 const { generateId } = require('../utils/id_creator')
 const { tokenCreator } = require('../utils/token_creator')
 
@@ -23,7 +23,6 @@ router.post('/register', async (req, res) => {
 
     let register_mode = req.body.register_mode ? req.body.register_mode : ''
     // 简单注册模式
-
     if (register_mode === '') {
         const { username, email, password } = req.body
         // 判断用户名和邮箱是否为空
@@ -43,7 +42,6 @@ router.post('/register', async (req, res) => {
                 message: '邮箱已存在'
             })
         }
-
         const existingUsername = await register_checkExistByUsername(username)  //boolean类型
         if (existingUsername) {
             return res.json({
@@ -52,7 +50,6 @@ router.post('/register', async (req, res) => {
                 message: '用户名已存在'
             })
         }
-
         try {
             const hashedPassword = await ToHash(password)
             // 生成id
