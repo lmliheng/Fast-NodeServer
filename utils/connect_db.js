@@ -30,7 +30,6 @@ const testConnection = async () => {
         const sql = 'SELECT * FROM user WHERE id = 1'
         const [rows] = await pool.query(sql)
         console.log('测试登录用户信息', rows[0].username, rows[0].email);
-        console.log('密码：test');
         return true;
     } catch (error) {
         console.error('数据库连接失败:', error);

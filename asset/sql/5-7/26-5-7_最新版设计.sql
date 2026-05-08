@@ -1,4 +1,4 @@
--- Active: 1773072033347@@127.0.0.1@3306@fastweb_test
+-- Active: 1778137088411@@127.0.0.1@3306@fastweb_test
 -- 重新组织表创建顺序：被引用的表必须先创建
 
 -- 1. 首先创建没有外键依赖的基础表
@@ -25,10 +25,10 @@ CREATE TABLE IF NOT EXISTS `user` (
     `password` VARCHAR(255) NOT NULL COMMENT '密码(加密存储)',
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    `role` BIGINT UNSIGNED DEFAULT 1,
+    `role_id` BIGINT UNSIGNED DEFAULT 2 COMMENT '角色ID',
     PRIMARY KEY (`id`),
-    INDEX `idx_role` (`role`),
-    CONSTRAINT `fk_user_role` FOREIGN KEY (`role`) REFERENCES `role` (`role_id`) ON DELETE SET NULL ON UPDATE CASCADE
+    INDEX `idx_role` (`role_id`),
+    CONSTRAINT `fk_user_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COMMENT = '用户表';
 
 -- 3. 创建依赖user表的article和article_category表

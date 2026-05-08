@@ -1,11 +1,11 @@
 const { ToHash, ComparePassword } = require('../bcrypt_password')
 
-let password = 'test'
+let password = '123456'
  ToHash(password).then(res => {
     console.log(res)
 })
 
-let hashedPassword = '$2b$10$5mBh3DVuJNPqd5P9y337UONPNcplSBGG73NYKCBdr3hFt/TB2ypiO'
+let hashedPassword = '$2b$10$hJgz2SAuG7vkZlmVGxqBCOA9qvSzl0snGQnVSLxzPc5e43.79D7iW'
 ComparePassword(password, hashedPassword).then(res => {
     console.log(res)
 })
