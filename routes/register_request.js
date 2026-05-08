@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { register_db_checkExistByEmail, register_db_register } = require('../utils/db_curd')
+const { register_checkExistByEmail, register_register } = require('../utils/db_curd')
 const { ToHash } = require('../utils/bcrypt_password')
 const { generateId } = require('../utils/id_creator')
 const { tokenCreator } = require('../utils/token_creator')
@@ -35,7 +35,7 @@ router.post('/register', async (req, res) => {
             })
         }
         // 判断邮箱是否已存在
-        const existingUser = await register_db_checkExistByEmail(email)  //boolean类型
+        const existingUser = await register_checkExistByEmail(email)  //boolean类型
         if (existingUser) {
             return res.json({
                 code: 400,
@@ -44,7 +44,7 @@ router.post('/register', async (req, res) => {
             })
         }
 
-        const existingUsername = await register_db_checkExistByUsername(username)  //boolean类型
+        const existingUsername = await register_checkExistByUsername(username)  //boolean类型
         if (existingUsername) {
             return res.json({
                 code: 400,
@@ -58,7 +58,7 @@ router.post('/register', async (req, res) => {
             // 生成id
             const id = await generateId()
             // 注册用户
-            await register_db_register(id, username, email, hashedPassword)
+            await register_register(id, username, email, hashedPassword)
             // 生成token
             const token = await tokenCreator({ id, username, email })
             // 响应

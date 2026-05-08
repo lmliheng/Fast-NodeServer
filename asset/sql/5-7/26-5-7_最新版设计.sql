@@ -38,7 +38,8 @@ CREATE TABLE IF NOT EXISTS `article` (
     `article_id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '文章ID',
     `title` VARCHAR(255) NOT NULL COMMENT '文章标题',
     `content` LONGTEXT COMMENT '文章内容',
-    `user` BIGINT UNSIGNED NOT NULL COMMENT '创建用户ID',
+    `user_id` BIGINT UNSIGNED NOT NULL COMMENT '创建用户ID',
+    `status` BOOLEAN DEFAULT 0 COMMENT '状态：0-草稿，1-已发布，2-仅自己可见',
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`article_id`),
@@ -47,12 +48,12 @@ CREATE TABLE IF NOT EXISTS `article` (
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COMMENT = '文章表';
 
 CREATE TABLE IF NOT EXISTS `article_category` (
-    `cartcategory_id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '文章分类ID',
+    `category_id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '文章分类ID',
     `category_name` VARCHAR(100) NOT NULL COMMENT '文章分类名称',
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `user` BIGINT UNSIGNED DEFAULT NULL COMMENT '创建用户ID',
-    PRIMARY KEY (`cartcategory_id`),
+    PRIMARY KEY (`category_id`),
     INDEX `idx_user` (`user`),
     CONSTRAINT `fk_article_category_user` FOREIGN KEY (`user`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COMMENT = '文章分类表';

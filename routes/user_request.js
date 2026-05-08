@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
-const { token_db_getUserInfo, user_db_updatePassword } = require('../utils/db_curd')
+const { token_getUserInfo, user_updatePassword } = require('../utils/db_curd')
 const { tokenCreator, tokenValidator } = require('../utils/token_creator')
-const { user_db_update } = require('../utils/db_curd')
+const { user_update } = require('../utils/db_curd')
 const { ToHash } = require('../utils/bcrypt_password')
 
 //========================================
@@ -11,6 +11,7 @@ const { ToHash } = require('../utils/bcrypt_password')
 //username: 用户名
 //email: 邮箱
 //password: 密码
+//avatar: 头像
 //created_at: 创建时间
 //updated_at: 更新时间
 //========================================
@@ -19,7 +20,7 @@ const { ToHash } = require('../utils/bcrypt_password')
 router.get('/userInfo', async (req, res) => {
     try {
         const token = req.headers.authorization
-        const user_info = await token_db_getUserInfo(token)
+        const user_info = await token_getUserInfo(token)
         if (user_info === null) {
             return res.status(401).json({
                 code: 401,
@@ -68,7 +69,7 @@ router.put('/userInfo', async (req, res) => {
     }
     try {
         // 密码加密
-        await user_db_update(id, username, email)
+        await user_update(id, username, email)
         res.json({
             code: 200,
             success: true,
@@ -107,7 +108,7 @@ router.post('/resetPassword', async (req, res) => {
         })
     }
     try {
-        await user_db_updatePassword(user_id, password)
+        await user_updatePassword(user_id, password)// 方法里会加密
         res.json({
             code: 200,
             success: true,
@@ -123,12 +124,6 @@ router.post('/resetPassword', async (req, res) => {
 }
 )
 
-
 // 更新用户权限
-
-
-
-
-
 
 module.exports = router

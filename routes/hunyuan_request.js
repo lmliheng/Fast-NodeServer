@@ -21,5 +21,4 @@ router.get('/singlechat', async (req, res) => {
     })
 })
 
-
 module.exports = router;
