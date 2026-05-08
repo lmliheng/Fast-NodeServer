@@ -1,4 +1,4 @@
--- Active: 1778137088411@@127.0.0.1@3306@fastweb_test
+-- Active: 1773072033347@@127.0.0.1@3306@fastweb_test
 
 -- 默认角色为2 普通用户
 ALTER TABLE `user`

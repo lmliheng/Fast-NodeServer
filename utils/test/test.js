@@ -1,5 +1,5 @@
-const { ToHash, ComparePassword } = require('./bcrypt_password')
-const { generateId } = require('./id_creator')
+const { ToHash, ComparePassword } = require('../bcrypt_password')
+const { generateId } = require('../id_creator')
 
 //- 使用了 require (CommonJS 语法)
 //- 同时在顶层使用了 await (ES Modules 语法)

@@ -1,23 +1,34 @@
 const { pool } = require('./connect_db')
 const { ComparePassword } = require('./bcrypt_password')
 const { tokenValidator } = require('../utils/token_creator')
-
+const { ToHash } = require('../utils/bcrypt_password')
 
 const token_db_getUserInfo = async (token) => {
-    const decoded = tokenValidator(token)
+    const decoded = await tokenValidator(token)
     const id = decoded.id
     try {
-        const sql = 'SELECT * FROM user WHERE id = ?'
-        const [rows] = await pool.query(sql, [id])
+        const sql = 
+        `
+        SELECT u.username, u.email, u.id, u.avatar, u.created_at, r.role_name, r.role_id, p.permission_name, p.permission_id
+        FROM user u
+        JOIN role r ON u.role_id = r.role_id
+        JOIN roleandpermission_middle rp ON rp.role_id = r.role_id
+        JOIN permission p ON p.permission_id = rp.permission_id
+        WHERE
+        u.id = ${id};
+        `
+        const [rows] = await pool.query(sql)  // row 是一个对象数组，每个对象对应数据库中的的一条记录
         if (rows.length === 0) {
             return null
         }
-        return rows[0]
+        return rows
     } catch (error) {
         console.error('根据用户token查询用户信息错误:', error)
         throw error
     }
 }
+
+
 const user_db_update = async (id, username, email) => {
     try {
         const sql = 'UPDATE user SET username = ?, email = ? WHERE id = ?'
@@ -25,6 +36,18 @@ const user_db_update = async (id, username, email) => {
         return true
     } catch (error) {
         console.error('更新用户信息错误:', error)
+        throw error
+    }
+}
+
+const user_db_updatePassword = async (id, password) => {
+    try {
+        let hashedPassword = await ToHash(password)
+        const sql = 'UPDATE user SET password = ? WHERE id = ?'
+        await pool.query(sql, [hashedPassword, id])
+        return true
+    } catch (error) {
+        console.error('更新用户密码错误:', error)
         throw error
     }
 }
@@ -96,6 +119,18 @@ const register_db_checkExistByEmail = async (email) => {
         throw error
     }
 }
+
+const register_db_checkExistByUsername = async (username) => {
+    try {
+        const sql = 'SELECT * FROM user WHERE username = ?'
+        const [rows] = await pool.query(sql, [username])
+        return rows.length > 0
+    } catch (error) {
+        console.error('检查用户是否存在错误:', error)
+        throw error
+    }
+}
+
 /**
  * 文章分类
  */
@@ -287,29 +322,31 @@ const article_cart_db_postEdit = async (cart_id, cart_name, user_id) => {
 }
 
 module.exports = {
-   
-    register_db_checkExistByEmail,
-    register_db_register,
-    login_db_loginByEmail,
-    login_db_loginByUsername,
+
+    register_db_checkExistByEmail, // 检查邮箱是否存在
+    register_db_checkExistByUsername, // 检查用户名是否存在
+    register_db_register, // 注册用户
+    user_db_updatePassword, // 更新用户密码
+    login_db_loginByEmail, // 邮箱登录
+    login_db_loginByUsername, // 用户名登录
     // 文章相关
-    article_db_getAll,
-    article_db_postEdit,
-    article_db_add,
-    article_db_getDetail,
-    article_db_getById,
-    article_db_deleteById,
-    article_db_getAllByPage,
-    article_db_getByCartIdByPage,
-    
+    article_db_getAll, // 查询所有文章
+    article_db_postEdit, // 更新文章
+    article_db_add, // 添加文章
+    article_db_getDetail, // 查询文章详情
+    article_db_getById, // 通过id查某用户下的文章
+    article_db_deleteById, // 删除本用户的文章
+    article_db_getAllByPage, // 查询所有文章分页
+    article_db_getByCartIdByPage, // 查询某分类下的文章分页
+
     // 分类相关
-    article_cart_db_getAll,
-    articleCart_db_getArticleListByUserId,
-    article_cart_db_deleteById,
-    article_cart_db_add,
-    article_cart_db_postEdit,
+    article_cart_db_getAll, // 查询所有分类
+    articleCart_db_getArticleListByUserId, // 查询某分类下的文章列表
+    article_cart_db_deleteById, // 删除某分类
+    article_cart_db_add, // 添加某分类
+    article_cart_db_postEdit, // 更新文章分类
     // 用户相关
-    token_db_getUserInfo,
-    user_db_update,
+    token_db_getUserInfo, // 获取用户信息
+    user_db_update, // 更新用户信息
 
 }

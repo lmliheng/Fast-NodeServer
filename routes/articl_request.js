@@ -14,7 +14,6 @@ const { tokenValidator } = require('../utils/token_creator')
 //created_at: 创建时间
 //updated_at: 更新时间
 
-
 //========================================
 // id是文章id，不是分类id，不是用户id，是文章的唯一标识，不自增，前端使用时间戳生成
 

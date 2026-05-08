@@ -13,7 +13,6 @@ router.get('/singlechat', async (req, res) => {
     const api_key = process.env['HUNYUAN_API_KEY'];
     const model = "hunyuan-turbos-latest";
     const response = await hunyuan_openai_singlechat(prompt, model, api_key)
-
     res.json({
         code: 200,
         success: true,

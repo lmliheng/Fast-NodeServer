@@ -1,4 +1,4 @@
--- Active: 1778137088411@@127.0.0.1@3306@fastweb_test
+-- Active: 1773072033347@@127.0.0.1@3306@fastweb_test
 -- 数据插入脚本
 -- 插入顺序必须遵循外键依赖关系
 
@@ -25,7 +25,7 @@ INSERT INTO `permission` (`permission_name`, `permission_description`) VALUES
 
 -- 3. 插入用户数据
 -- 密码都是 123456 的 bcrypt 加密值
-INSERT INTO `user` (`username`, `email`, `password`, `role`) VALUES
+INSERT INTO `user` (`username`, `email`, `password`, `role_id`) VALUES
 ('admin', 'admin@test.com', '$2b$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 1),
 ('editor', 'editor@test.com', '$2b$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 3),
 ('user1', 'user1@test.com', '$2b$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 2),

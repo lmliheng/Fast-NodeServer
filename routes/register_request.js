@@ -3,9 +3,10 @@ const router = express.Router()
 const { register_db_checkExistByEmail, register_db_register } = require('../utils/db_curd')
 const { ToHash } = require('../utils/bcrypt_password')
 const { generateId } = require('../utils/id_creator')
-const tokenCreator = require('../utils/token_creator')
+const { tokenCreator } = require('../utils/token_creator')
 
 //========================================
+// 26-5-8 
 //table: user
 //id: 用户id
 //username: 用户名
@@ -22,6 +23,7 @@ router.post('/register', async (req, res) => {
 
     let register_mode = req.body.register_mode ? req.body.register_mode : ''
     // 简单注册模式
+
     if (register_mode === '') {
         const { username, email, password } = req.body
         // 判断用户名和邮箱是否为空
@@ -32,13 +34,22 @@ router.post('/register', async (req, res) => {
                 message: '用户名、邮箱或密码不能为空'
             })
         }
-        // 判断用户名和邮箱是否已存在
+        // 判断邮箱是否已存在
         const existingUser = await register_db_checkExistByEmail(email)  //boolean类型
         if (existingUser) {
             return res.json({
                 code: 400,
                 success: false,
                 message: '邮箱已存在'
+            })
+        }
+
+        const existingUsername = await register_db_checkExistByUsername(username)  //boolean类型
+        if (existingUsername) {
+            return res.json({
+                code: 400,
+                success: false,
+                message: '用户名已存在'
             })
         }
 
@@ -69,6 +80,18 @@ router.post('/register', async (req, res) => {
     }
 
     // 邮箱注册模式
+    if (register_mode === 'email') {
+
+        res.json({
+            code: 200,
+            success: true,
+            message: '邮箱注册模式，未开发'
+        })
+
+    }
+
+
+
 
 })
 

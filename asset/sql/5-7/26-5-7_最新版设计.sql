@@ -1,4 +1,4 @@
--- Active: 1778137088411@@127.0.0.1@3306@fastweb_test
+-- Active: 1773072033347@@127.0.0.1@3306@fastweb_test
 -- 重新组织表创建顺序：被引用的表必须先创建
 
 -- 1. 首先创建没有外键依赖的基础表
@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS `user` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '用户ID',
     `username` VARCHAR(50) NOT NULL UNIQUE COMMENT '用户名',
     `email` VARCHAR(100) UNIQUE DEFAULT 'liheng@test' COMMENT '邮箱',
+    `avatar` varchar(255) DEFAULT NULL COMMENT '头像',
     `password` VARCHAR(255) NOT NULL COMMENT '密码(加密存储)',
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
