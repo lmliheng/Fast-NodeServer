@@ -30,8 +30,9 @@ const handleDelete = (row) => {
 const getArticleList = async () => {
     loading.value = true
     const res = await requestArticleList()
-    articleList.value = res.data.list
-    total.value = res.data.total
+    console.log(res)
+    articleList.value = res.articleList
+    total.value = res.articleList.length
     loading.value = false
 }
 
@@ -46,11 +47,13 @@ onMounted(() => {
 <template>
     <div>
         <el-table :data="articleList" :loading="loading" stripe :table-layout="tableLayout">
-            <el-table-column align="center" prop="ranking" label="排名"  />
+            <el-table-column align="center" prop="article_id" label="排名"  />
             <el-table-column align="center" prop="title" label="标题"  />
-            <el-table-column align="center" prop="author" label="作者"  />
-            <el-table-column align="center" prop="publicDate" label="发布日期"  />
-            <el-table-column align="center" prop="desc" label="描述"  />
+            <!-- <el-table-column align="center" prop="category" label="分类"  /> -->
+            <el-table-column align="center" prop="status" label="状态"  />
+            <el-table-column align="center" prop="user" label="作者"  />
+            <el-table-column align="center" prop="updated_at" label="修改日期"  />
+            <!-- <el-table-column align="center" prop="desc" label="描述"  /> -->
             <el-table-column align="center" label="操作">
                 <template #default="scope">
                     <el-button type="primary" @click="handleDetail(scope.row)">{{ $t('detail') }}</el-button>

@@ -9,7 +9,7 @@ const loading = ref(false)
 const getPermissionList = async () => {
     loading.value = true
     const res = await requestPermissionList()
-    permissionList.value = res.data
+    permissionList.value = res.permissions
     loading.value = false
 }
 
@@ -29,9 +29,9 @@ onMounted(() => {
       v-loading="loading"
       :tree-props="{ children: 'children' }"
     >
-      <el-table-column prop="id" :label="$t('permission_id')" sortable />
-      <el-table-column align="center" prop="permissionName" :label="$t('permission_name')" sortable />
-      <el-table-column align="center" prop="permissionMark" :label="$t('permission_mark')" sortable />
-      <el-table-column align="center" prop="permissionDesc" :label="$t('permission_description')" sortable />
+      <el-table-column align="center" prop="permission_id" :label="$t('permission_id')" sortable />
+      <el-table-column align="center" prop="permission_name" :label="$t('permission_name')" sortable />
+      <!-- <el-table-column align="center" prop="permission_mark" :label="$t('permission_mark')" sortable /> -->
+      <el-table-column align="center" prop="permission_description" :label="$t('permission_description')" sortable />
     </el-table>
 </template>

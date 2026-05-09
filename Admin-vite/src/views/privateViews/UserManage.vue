@@ -17,10 +17,12 @@ const tableLayout = ref('fixed')
 const getUser=async () => {
     loading.value = true;
     const res = await requestUser();
-    userList.value = res.data.list;
-    total.value = res.data.total;
-    pageNum.value = String(res.data.page);
-    pageSize.value = String(res.data.size);
+    console.log(res)
+    
+    userList.value = res.users;
+    total.value = res.users.length;
+    pageNum.value = "2"
+    pageSize.value = "2"
     loading.value = false;
 }
 
@@ -73,20 +75,27 @@ onMounted(() => {
         </el-button>
         </div>
 
-    <el-table :data="userList" border stripe :table-layout="tableLayout">
-    <el-table-column align="center" prop="role[0].id" :label="$t('id')"  />
+    <el-table
+    :data="userList"
+    border
+    :loading="loading"
+    stripe
+    :table-layout="tableLayout"
+    :default-sort="{ prop: 'id', order: 'ascending' }"
+    >
+    <el-table-column align="center" prop="id" :label="$t('id')" sortable />
      <el-table-column align="center" :label="$t('avatar')">
         <template #default="scope">
             <el-avatar :src="scope.row.avatar" fit="fill" />
         </template>
     </el-table-column>
     <el-table-column align="center" prop="username" :label="$t('username')"  />
-    <el-table-column align="center" prop="role[0].title" :label="$t('role')">
+    <el-table-column align="center"  :label="$t('role')">
          <template #default="scope">
-           <el-tag type="primary">{{ scope.row.role[0].title }}</el-tag>
+           <el-tag type="primary">{{ scope.row.role_name }}</el-tag>
         </template>
     </el-table-column>
-    <el-table-column align="center" prop="mobile" :label="$t('mobile')"  />
+    <!-- <el-table-column align="center" prop="mobile" :label="$t('mobile')"  /> -->
    <el-table-column align="center" :label="$t('operation')">
       <template #default="scope">
         <el-button type="success" size="small" @click="handleDetail(scope.$index, scope.row)">

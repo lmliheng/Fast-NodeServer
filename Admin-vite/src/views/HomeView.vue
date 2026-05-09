@@ -27,10 +27,13 @@ const loading = ref(false)
 const getUserInfo = async () => {
     loading.value = true
     const res = await requestUserInfo()
-    authStore.setUserInfo(res.data)
-    UserInfo.value = res.data
-    if(res.code==200){
+    UserInfo.value = res.user_info
+    authStore.setUserInfo(res.user_info)
+    if(res.code===200){
         loading.value = false
+    }else{
+      loading.value = false
+      ElMessage.error(t('get_user_info_failed'))
     }
 }
 
@@ -88,7 +91,7 @@ onMounted(() => {
                 </div>
 
            <el-dropdown placement="top-start" id="header-avatar">
-           <el-avatar  shape="square" size="default" :src="UserInfo.avatar" />
+           <el-avatar  shape="square" size="default" :src="UserInfo?.user_detail?.avatar" />
             <template #dropdown>
            <el-dropdown-menu>
           <el-dropdown-item @click="loginOut">{{ $t('login_out') }}</el-dropdown-item>

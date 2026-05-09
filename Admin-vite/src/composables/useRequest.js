@@ -1,11 +1,11 @@
 import { api } from './useAxiosConfig'
-import md5 from 'md5'
+// import md5 from 'md5'
 export const login = (account, password) => api({
     url: '/login',
     method: 'post',
     data: {
         username: account,
-        password: md5(password)
+        password: password
     }
 })
 
@@ -35,6 +35,6 @@ export const requestPermissionList = () => api({
 })
 
 export const requestArticleList = () => api({
-    url: `/article/list`,
+    url: `/article/getAll`,
     method: 'get'
 })

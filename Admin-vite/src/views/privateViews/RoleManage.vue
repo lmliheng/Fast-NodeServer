@@ -14,7 +14,8 @@ const tableLayout = ref('fixed')
 const getRoleList = async () => {
     loading.value = true
     const res = await requestRoleList()
-    roleList.value = res.data
+    
+    roleList.value = res.roles
     loading.value = false
 }
 
@@ -56,10 +57,9 @@ onMounted(() => {
     <div>
     <RolePermissionDialog  :dialogVisible="DialogVisible" @update:dialogVisible="DialogVisible = $event" />
     <el-table :data="roleList" :table-layout="tableLayout" v-loading="loading">
-        <el-table-column prop="id" :label="$t('role_id')"  />
-        <el-table-column prop="title" :label="$t('role_name')"  />
-        <el-table-column prop="describe" :label="$t('role_description')"  />
-        <el-table-column :label="$t('operation')">
+        <el-table-column align="center" prop="role_id" :label="$t('role_id')"  />
+        <el-table-column align="center" prop="role_name" :label="$t('role_name')"  />
+        <el-table-column align="center" :label="$t('operation')">
             <template #default="scope">
                 <el-button type="primary" size="small" @click="handlePermission(scope.row)">{{ $t('assign_permission') }}</el-button>
                 <el-button type="danger" size="small" @click="handleDelete(scope.row)">{{ $t('delete_role') }}</el-button>

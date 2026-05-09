@@ -20,15 +20,20 @@ const ruleForm = reactive({
 const submitForm = async () => {
    loading.value = true
    const res = await login(ruleForm.account, ruleForm.password)
-   
+
    if(res.code === 200){
     loading.value = false
     ElMessage.success(t('login_success'))
-    localStorage.setItem('token', res.data.token)
-    authStore.setToken(res.data.token)
+    localStorage.setItem('token', res.token)
+    authStore.setToken(res.token)
+    authStore.setUserInfo(res.user_info)
     authStore.setTokenTime(new Date().toLocaleString())
     router.push('/')
+   }else{
+    loading.value = false
+    ElMessage.error(t('login_failed'))
    }
+
 }
 
 onMounted(() => {
